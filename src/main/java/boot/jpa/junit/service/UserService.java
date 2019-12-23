@@ -2,12 +2,16 @@ package boot.jpa.junit.service;
 
 import boot.jpa.junit.domain.user.User;
 import boot.jpa.junit.domain.user.UserRepository;
+import boot.jpa.junit.dto.UserFindAllResponseDto;
 import boot.jpa.junit.dto.UserFindByIdResponseDto;
 import boot.jpa.junit.dto.UserSignUpRequestDto;
 import lombok.AllArgsConstructor;
+import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -23,5 +27,13 @@ public class UserService {
     public UserFindByIdResponseDto userFindByIdResponse(Long id) {
         User user = userRepository.findById(id).orElse(null);
         return new UserFindByIdResponseDto(user);
+    }
+
+    @Transactional
+    @ReadOnlyProperty
+    public List<UserFindAllResponseDto> userFindAllResponse() {
+        return userRepository.findAll().stream()
+                .map(UserFindAllResponseDto::new)
+                .collect(Collectors.toList());
     }
 }
