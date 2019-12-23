@@ -42,4 +42,9 @@ public class UserService {
     public Long userUpdateRequest(UserUpdateRequestDto dto){
         return userRepository.save(dto.toEntity()).getId();
     }
+
+    @Transactional
+    public void userDeleteRequest(Long id) {
+        userRepository.deleteById(id);
+    }
 }
