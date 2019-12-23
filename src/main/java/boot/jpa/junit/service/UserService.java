@@ -5,6 +5,7 @@ import boot.jpa.junit.domain.user.UserRepository;
 import boot.jpa.junit.dto.UserFindAllResponseDto;
 import boot.jpa.junit.dto.UserFindByIdResponseDto;
 import boot.jpa.junit.dto.UserSignUpRequestDto;
+import boot.jpa.junit.dto.UserUpdateRequestDto;
 import lombok.AllArgsConstructor;
 import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.stereotype.Service;
@@ -35,5 +36,10 @@ public class UserService {
         return userRepository.findAll().stream()
                 .map(UserFindAllResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public Long userUpdateRequest(UserUpdateRequestDto dto){
+        return userRepository.save(dto.toEntity()).getId();
     }
 }
