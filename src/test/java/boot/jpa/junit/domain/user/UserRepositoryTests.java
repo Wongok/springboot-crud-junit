@@ -58,7 +58,7 @@ public class UserRepositoryTests {
     }
 
     @Test
-    public void UserFindByIdTest() {
+    public void UserFindByIdResponseTest() {
         // given
         User user = User.builder()
                 .userName("Park")
@@ -72,5 +72,29 @@ public class UserRepositoryTests {
 
         // then
         Assertions.assertThat(savedUser.getUserId()).isEqualTo("Wongok");
+    }
+
+    @Test
+    public void UserUpdateRequestTest() {
+        // given
+        User user = User.builder()
+                .userName("Park")
+                .userId("Wongok")
+                .password("1232")
+                .build();
+        userRepository.save(user);
+
+        // when
+        userRepository.save(User.builder()
+                .id(1L)
+                .userName("Kim")
+                .userId("RedOne")
+                .password("333")
+                .build());
+
+        // then
+        User updatedUser = userRepository.findById(1L).orElse(null);
+        Assertions.assertThat(updatedUser.getId()).isEqualTo(user.getId());
+        Assertions.assertThat(updatedUser.getUserId()).isEqualTo("RedOne");
     }
 }
