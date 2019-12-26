@@ -97,4 +97,21 @@ public class UserRepositoryTests {
         Assertions.assertThat(updatedUser.getId()).isEqualTo(user.getId());
         Assertions.assertThat(updatedUser.getUserId()).isEqualTo("RedOne");
     }
+
+    @Test
+    public void UserDeleteRequestTest() {
+        // given
+        User user = User.builder()
+                .userName("Park")
+                .userId("Wongok")
+                .password("1232")
+                .build();
+        userRepository.save(user);
+
+        // when
+        userRepository.deleteById(1L);
+
+        // then
+        Assert.assertNull(userRepository.findById(1L).orElse(null));
+    }
 }
