@@ -56,4 +56,21 @@ public class UserRepositoryTests {
         // then
         Assertions.assertThat(userList).hasSize(1);
     }
+
+    @Test
+    public void UserFindByIdTest() {
+        // given
+        User user = User.builder()
+                .userName("Park")
+                .userId("Wongok")
+                .password("1232")
+                .build();
+        userRepository.save(user);
+
+        // when
+        User savedUser = userRepository.findById(1L).orElse(null);
+
+        // then
+        Assertions.assertThat(savedUser.getUserId()).isEqualTo("Wongok");
+    }
 }
