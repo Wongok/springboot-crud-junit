@@ -1,10 +1,7 @@
 package boot.jpa.junit.dto;
 
 import boot.jpa.junit.domain.user.User;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -23,5 +20,13 @@ public class UserUpdateRequestDto {
                 .userId(userId)
                 .password(password)
                 .build();
+    }
+
+    @Builder
+    public UserUpdateRequestDto(Long id, String userName, String userId, String password) {
+        this.id = id;
+        this.userName = userName;
+        this.userId = userId;
+        this.password = password;
     }
 }

@@ -88,4 +88,54 @@ public class UserServiceTests {
         // then
         Assertions.assertThat(output).hasSize(100);
     }
+
+    @Test
+    public void userUpdateRequest() {
+        // given
+        UserSignUpRequestDto input = UserSignUpRequestDto.builder()
+                .userName("Park")
+                .userId("Wongok")
+                .password("1234")
+                .build();
+
+        userService.userSignUpRequest(input);
+
+        // when
+        UserUpdateRequestDto modifiedInput = UserUpdateRequestDto.builder()
+                .id(1L)
+                .userName("ParkSang")
+                .userId("Kognow")
+                .password("1111")
+                .build();
+
+        userService.userUpdateRequest(modifiedInput);
+
+        UserFindByIdResponseDto output = userService.userFindByIdResponse(1L);
+
+        // then
+        Assert.assertNotEquals(input.getUserName(), output.getUserName());
+        Assert.assertEquals(output.getUserName(), "ParkSang");
+        Assert.assertNotEquals(input.getUserId(), output.getUserId());
+        Assert.assertEquals(output.getUserId(), "Kognow");
+        Assert.assertNotEquals(input.getPassword(), output.getPassword());
+        Assert.assertEquals(output.getPassword(), "1111");
+    }
+
+    @Test
+    public void userDeleteRequest() {
+        // given
+        UserSignUpRequestDto input = UserSignUpRequestDto.builder()
+                .userId("Wongok")
+                .userName("Park")
+                .password("1234")
+                .build();
+
+        userService.userSignUpRequest(input);
+
+        // when
+        userService.userDeleteRequest(1L);
+
+        // then
+        Assertions.assertThat(userService.userFindAllResponse()).hasSize(0);
+    }
 }
